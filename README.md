@@ -40,26 +40,4 @@ InvestSmart is a web application developed as part of a Databases and Web Develo
    - Monitor individual user investments
    - Track overall fund performance
 
-## Technology Stack
-
-(To be decided - list your chosen technologies here)
-
-## Installation
-
-(Add installation instructions here once the project is underway)
-
-## Contributing
-
-This project is part of a course assignment and is not open for external contributions at this time.
-
-## License
-
-(Add appropriate license information here)
-
-## Contact
-
-(Add contact information or course details here)
-[investment-app-readme.md](https://github.com/user-attachments/files/16886127/investment-app-readme.md)
-s routed back to
-- Admins can view each individual user and view the totals of each fund
 
