@@ -1,8 +1,8 @@
-# InvestSmart
+# MilkyWayManagement
 
 ## Description
 
-InvestSmart is a web application developed as part of a Databases and Web Development course project. It simulates an investment platform where users can invest in various funds managed by admin investors.
+MilkyWayManagement is a web application developed as part of a Databases and Web Development course project. It simulates an investment platform where users can invest in various funds managed by admin investors.
 
 ## Features
 
