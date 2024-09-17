@@ -1,9 +1,17 @@
 {% if session.username %}
 <p>You've logged in under: {{ session.username }}</p>
 <a href="/logout">Logout</a>
-<form action="/invest" method="POST">
-<p>Account fund performance:<br>
-</p> ADD LATER</p>
+
+<p>Account fund performance:</p>
+{% if funds %}
+    <ul>
+    {% for fund in funds %}
+        <li>{{ fund[0] }}: {{ fund[1] }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No funds available.</p>
+{% endif %}
 To deposit more money <a href="/deposit">here</a>
 {% else %}
 <form action="/login" method="POST">

@@ -1,6 +1,7 @@
 from app import app
 from flask import Flask
 from flask import redirect, render_template, request, session
+import funds
 import functions
 
 
@@ -8,7 +9,8 @@ import functions
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    list = funds.funds()
+    return render_template("index.html",count=len(list), funds=list)
 
 
 @app.route("/login", methods=["GET", "POST"])

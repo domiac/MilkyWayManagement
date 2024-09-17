@@ -49,5 +49,17 @@ def deposit(username,amount,fund):
     return True
 
 
+
+
+
+
+
+
+
+
 def logout():
     del session["username"]
+
+
+
+
