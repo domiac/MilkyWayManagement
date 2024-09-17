@@ -1,15 +1,17 @@
-
-
 {% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
+<p>You've logged in under: {{ session.username }}</p>
+<a href="/logout">Logout</a>
+<form action="/invest" method="POST">
+<p>Account fund performance:<br>
+</p> ADD LATER</p>
+To deposit more money <a href="/deposit">here</a>
 {% else %}
 <form action="/login" method="POST">
-<p>Tunnus:<br>
+<p>Username:<br>
 <input type="text" name="username"></p>
-<p>Salasana:<br>
+<p>Password:<br>
 <input type="password" name="password"></p>
-<input type="submit" value="Kirjaudu">
+<input type="submit" value="Login">
 </form>
-Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register">tästä</a>
+If you don't have an account you can create one <a href="/register">here</a>
 {% endif %}

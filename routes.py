@@ -21,7 +21,7 @@ def login():
         if functions.log_in(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("error.html", message="Wrong username or password")
     
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -36,9 +36,22 @@ def register():
         if functions.register(username, password1):
             return redirect("/")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return render_template("error.html", message="Registration failed")
          
 
+
+@app.route("/deposit", methods=["GET", "POST"])
+def deposit():
+    if request.method == "GET":
+        return render_template("deposit.html")
+    if request.method == "POST":
+        username = session["username"]
+        amount = request.form["amount"]
+        fund = request.form["fund"]
+        if functions.deposit(username,amount,fund):
+            return redirect("/")
+        else:
+            return render_template("error.html", message="Deposit failed")
 
 
 

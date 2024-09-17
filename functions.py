@@ -36,5 +36,18 @@ def register(username, password):
         return False
 
 
+def deposit(username,amount,fund):
+    try:
+        sql_id = text("SELECT id FROM users WHERE username = :username")
+        result = db.session.execute(sql_id, {"username": username})
+        user_id = result.fetchone()[0]
+        sql_insert = text("INSERT INTO deposits (user_id,amount,fund,sent_date) VALUES (:user_id,:amount,:fund,NOW())")
+        db.session.execute(sql_insert, {"user_id":user_id, "amount":amount, "fund":fund})
+        db.session.commit()
+    except:
+        return False
+    return True
+
+
 def logout():
     del session["username"]
