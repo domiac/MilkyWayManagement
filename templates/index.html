@@ -1,19 +1,34 @@
+
+
 {% if session.username %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage</title>
+</head>
+<body>
+<h1>Homepage</h1>
+
 <p>You've logged in under: {{ session.username }}</p>
 <a href="/logout">Logout</a>
 
 <p>Account fund performance:</p>
 {% if funds %}
-    <ul>
-    {% for fund in funds %}
-        <li>{{ fund[0] }}: {{ fund[1] }}</li>
-    {% endfor %}
-    </ul>
+<ul>
+{% for fund in funds %}
+<li>{{ fund[0] }}: {{ fund[1] }}</li>
+{% endfor %}
+</ul>
 {% else %}
-    <p>No funds available.</p>
+<p>No funds available.</p>
 {% endif %}
-To deposit more money <a href="/deposit">here</a>
+To deposit more money, click <a href="/deposit">here</a>
+<p></p>
+To withdraw money, click <a href="/withdraw">here</a>
 {% else %}
+
 <form action="/login" method="POST">
 <p>Username:<br>
 <input type="text" name="username"></p>

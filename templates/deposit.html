@@ -1,8 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit</title>
+</head>
+<body>
+<h1>Deposit</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="flashes">
+{% for category, message in messages %}
+<li class="{{ category }}">{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
 <form action="/deposit" method="post">
-    Deposit amount: <input type="text" name="amount">
-    <p>
-    Choose Fund: <select name="fund">
-    <option value="1">Fund 1</option>
-    <p>
-    <input type="submit" value="Deposit">
-    </form>
+<p>
+<label for="fund">Choose Fund:</label>
+<select id="fund" name="fund" required>
+{% for fund in funds %}
+<option value="{{ fund.fund_name }}">{{ fund.fund_name }} (Interest: {{ fund.intrest }}%)</option>
+{% endfor %}
+</select>
+<p>
+<label for="amount">Deposit amount:</label>
+<input type="text" id="amount" name="amount" required>
+<p>
+<input type="submit" value="Deposit">
+</form>
+</body>
+</html>

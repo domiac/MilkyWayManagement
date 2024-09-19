@@ -1,16 +1,17 @@
 from app import app
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, flash
 import funds
 import functions
-
+from all_possible_funds import all_possible_funds
+from user_specified_funds import user_specified_funds
 
 
 
 @app.route("/")
 def index():
     list = funds.funds()
-    return render_template("index.html",count=len(list), funds=list)
+    return render_template("index.html", funds=list)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -44,16 +45,37 @@ def register():
 
 @app.route("/deposit", methods=["GET", "POST"])
 def deposit():
-    if request.method == "GET":
-        return render_template("deposit.html")
+    if "username" not in session:
+        return redirect("/login")
+    available_funds = all_possible_funds()
     if request.method == "POST":
-        username = session["username"]
         amount = request.form["amount"]
         fund = request.form["fund"]
-        if functions.deposit(username,amount,fund):
+        success = functions.deposit(session["username"], amount, fund)
+        if success:
+            flash("Deposit successful", "success")
             return redirect("/")
         else:
-            return render_template("error.html", message="Deposit failed")
+            flash("Deposit failed", "error")
+    return render_template("deposit.html", funds=available_funds)
+
+
+
+@app.route("/withdraw", methods=["GET", "POST"])
+def withdraw():
+    if "username" not in session:
+        return redirect("/login")
+    available_funds_for_account = user_specified_funds() or []
+    if request.method == "POST":
+        amount = request.form["amount"]
+        fund = request.form["fund"]
+        success = functions.withdraw(session["username"], amount, fund)
+        if success:
+            flash("Withdrawal successful", "success")
+            return redirect("/")
+        else:
+            flash("Withdrawal failed", "error")
+    return render_template("withdraw.html", funds=available_funds_for_account)
 
 
 
