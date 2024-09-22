@@ -4,17 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register</title>
+<style>
+#admin-input {
+display: none;
+}
+</style>
 </head>
 <body>
 <h1>Register</h1>
-
-
 <form action="/register" method="post">
+<p>
 Username: <input type="text" name="username">
+</p>
 <p>
 Password: <input type="password" name="password1">
+</p>
 <p>
 Password again: <input type="password" name="password2">
+</p>
+
+<p>
+<label for="show-checkbox">Are you an admin?</label>
+<input type="checkbox" id="show-checkbox" onclick="toggleAdminInput()">
+</p>
+<p id="admin-input">
+Admin credentials: <input type="password" name="admin_creds">
+</p>
 <p>
 <input type="submit" value="Create account">
+</p>
 </form>
+
+<script>
+function toggleAdminInput() {
+var adminInput = document.getElementById("admin-input");
+if (document.getElementById("show-checkbox").checked) {adminInput.style.display = "block";} else {adminInput.style.display = "none";}}
+</script>
+
+</body>
+</html>

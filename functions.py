@@ -21,12 +21,12 @@ def log_in(username, password):
 
 
 
-def register(username, password):
+def register(username, password, admin):
     hash_value = generate_password_hash(password)
     if not log_in(username, password):  
         try:
-            sql_insert = text("INSERT INTO users (username,password) VALUES (:username,:password)")
-            db.session.execute(sql_insert, {"username":username, "password":hash_value})
+            sql_insert = text("INSERT INTO users (username,password, admin) VALUES (:username,:password,:admin)")
+            db.session.execute(sql_insert, {"username":username, "password":hash_value, "admin":admin})
             db.session.commit()
         except:
             return False

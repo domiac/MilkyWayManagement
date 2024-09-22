@@ -31,12 +31,15 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
+        admin = False
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        if request.form["admin_creds"]=="admin1234":
+            admin = True
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
-        if functions.register(username, password1):
+        if functions.register(username, password1, admin):
             return redirect("/")
         else:
             return render_template("error.html", message="Registration failed")

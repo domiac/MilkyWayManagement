@@ -13,7 +13,7 @@ def funds():
         sql_id = text("SELECT id FROM users WHERE username = :username")
         result = db.session.execute(sql_id, {"username": username})
         user_id = result.fetchone()[0]
-        sql_funds = text("SELECT fund_id, SUM(amount) FROM transaction WHERE user_id = :user_id GROUP BY fund_id")
+        sql_funds = text("SELECT f.fund_name, SUM(t.amount) as total_amount FROM transaction t JOIN fund f ON t.fund_id = f.id WHERE t.user_id = :user_id GROUP BY f.fund_name")
         result = db.session.execute(sql_funds, {"user_id": user_id})
         funds = result.fetchall()
         return funds
