@@ -20,7 +20,22 @@ def watchlist_specific_funds():
     
     else:
         return []
-    
+
+
+def chosen_watchlist_funds():
+    if "username" in session:
+        username = session["username"]
+        sql_id = text("SELECT id FROM users WHERE username = :username")
+        result = db.session.execute(sql_id, {"username": username})
+        user_id = result.fetchone()[0]
+        sql_listed = text("SELECT fund_name FROM fund WHERE id IN (SELECT fund_id FROM watchlist WHERE user_id = :user_id)")
+        result = db.session.execute(sql_listed, {"user_id": user_id})
+        funds_listed = result.fetchall()
+        return funds_listed
+    else:
+        return []
+
+
 
 def watchlist_sums():
     if "username" in session:

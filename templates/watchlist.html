@@ -18,16 +18,46 @@
 {% endif %}
 {% endwith %}
 
+<h2>Add to Watchlist</h2>
 <form action="/watchlist" method="post">
 <p>
-<label for="fund">Choose Fund:</label>
-<select id="fund" name="fund" required>
-{% for fund in funds %}
+<label for="add_fund">Choose Fund to Add:</label>
+<select id="add_fund" name="fund" required>
+{% for fund in available_funds %}
 <option value="{{ fund.fund_name }}">{{ fund.fund_name }}</option>
 {% endfor %}
 </select>
+</p>
 <p>
 <input type="submit" value="Add to your watchlist">
+</p>
 </form>
+
+<h2>Remove from Watchlist</h2>
+<form action="/remove_from_watchlist" method="post">
+<p>
+<label for="remove_fund">Choose Fund to Remove:</label>
+<select id="remove_fund" name="fund" required>
+{% for fund in watchlist_funds %}
+<option value="{{ fund.fund_name }}">{{ fund.fund_name }}</option>
+{% endfor %}
+</select>
+</p>
+<p>
+<input type="submit" value="Remove from your watchlist">
+</p>
+</form>
+<h3>Current Watchlist</h3>
+{% if watchlist_funds %}
+<ul>
+{% for fund in watchlist_funds %}
+<li>{{ fund.fund_name }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>You have no funds in your watchlist.</p>
+{% endif %}
+<p><a href="/">Back to main page</a></p>
+
 </body>
 </html>

@@ -119,6 +119,19 @@ def add_to_watchlist(username, fund_name):
         return False
     return True
 
+def remove_from_watchlist(username, fund_name):
+    fund_id = fund_id_func(fund_name)
+    sql_id = text("SELECT id FROM users WHERE username = :username")
+    result = db.session.execute(sql_id, {"username": username})
+    user_id = result.fetchone()[0]
+    try:
+        sql_delete = text("DELETE FROM watchlist WHERE user_id = :user_id AND fund_id = :fund_id")
+        db.session.execute(sql_delete, {"user_id": user_id, "fund_id": fund_id})
+        db.session.commit()
+    except:
+        return False
+    return True
+
 
 def logout():
     del session["username"]

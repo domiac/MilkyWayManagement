@@ -8,15 +8,13 @@ from user_specified_funds import user_specified_funds
 from os import getenv
 from watchlist_specific_funds import watchlist_specific_funds
 from watchlist_specific_funds import watchlist_sums
-
+from watchlist_specific_funds import chosen_watchlist_funds
 
 
 @app.route("/")
 def index():
     list = funds.funds()
     watchlist = watchlist_sums()
-    print(list)
-    print(watchlist)
     return render_template("index.html", funds=list, watchlist=watchlist)
 
 
@@ -118,17 +116,29 @@ def watchlist():
     if "username" not in session:
         return redirect("/login")
     available_funds = watchlist_specific_funds() or []
+    watchlist_funds = chosen_watchlist_funds() or []
     if request.method == "POST":
         fund = request.form["fund"]
         success = functions.add_to_watchlist(session["username"], fund)
         if success:
             flash("Fund added to watchlist", "success")
-            return redirect("/")
+            return redirect("/watchlist")
         else:
             flash("Failed to add fund to watchlist", "error")
-    return render_template("watchlist.html", funds=available_funds)
+    return render_template("watchlist.html", available_funds=available_funds, watchlist_funds=watchlist_funds)
 
-
+@app.route("/remove_from_watchlist", methods=["POST"])
+def remove_from_watchlist():
+    if "username" not in session:
+        return redirect("/login")
+    if request.method == "POST":
+        fund = request.form["fund"]
+        success = functions.remove_from_watchlist(session["username"], fund)
+        if success:
+            flash("Fund removed from watchlist", "success")
+        else:
+            flash("Failed to remove fund from watchlist", "error")
+    return redirect("/watchlist")
 
 
 @app.route("/logout")
