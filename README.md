@@ -1,7 +1,7 @@
 # MilkyWayManagement
 
 ## Current state DELETE LATER WHEN FINE TUNING:
-MilkyWayManagement is in a good state. The Main functions are working well. The Database needs some tweaking for example if a user is trying to create a same named user it increments the running id without creating the user. This might create problems with overhang in larger projects. Need to fix the admin feature registration feature. And finish the fund simulation. Then the program is finished.
+MilkyWayManagement is in a good state. The Main functions are working well. The Database needs some tweaking for example if a user is trying to create a same named user it increments the running id without creating the user. This might create problems with overhang in larger projects. Need to fix the admin feature registration feature. And finish the fund simulation. Then the program is finished. To create an admin user when registering use create .env where ADMIN_KEY = admin1234
 
 
 ## AI in this project
@@ -10,6 +10,16 @@ I have used Claude.ai and chatgpt in creating this read.me file and with help on
 ## Description
 
 MilkyWayManagement is a web application developed as part of a Databases and Web Development course project. It simulates an investment platform where users can invest in various funds managed by admin investors.
+
+## Starting the project
+First initialize your psql by running the lines in schema.sql. Create a folder where you'll create a .venv or venv file along with a .env . Add your credentials into .env file as follows
+- DATABASE_URL=postgresql:/ "Whatever it might be for you"
+- SECRET_KEY = "Whatever it might be for you"
+- ADMIN_KEY = admin1234
+The source into your venv and activate. By doing source venv/bin/activate or source .venv/bin/activate . After this you can copy this into the terminal:
+- pip install -r requirements.txt 
+- Then you can Flask run.
+
 
 ## Features
 
