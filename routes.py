@@ -6,13 +6,18 @@ import functions
 from all_possible_funds import all_possible_funds
 from user_specified_funds import user_specified_funds
 from os import getenv
+from watchlist_specific_funds import watchlist_specific_funds
+from watchlist_specific_funds import watchlist_sums
 
 
 
 @app.route("/")
 def index():
     list = funds.funds()
-    return render_template("index.html", funds=list)
+    watchlist = watchlist_sums()
+    print(list)
+    print(watchlist)
+    return render_template("index.html", funds=list, watchlist=watchlist)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -105,6 +110,25 @@ def create_fund():
         else:
             flash("You do not have permission to create funds", "error")
     return render_template("create_fund.html")
+
+
+
+@app.route("/watchlist", methods=["GET", "POST"])
+def watchlist():
+    if "username" not in session:
+        return redirect("/login")
+    available_funds = watchlist_specific_funds() or []
+    if request.method == "POST":
+        fund = request.form["fund"]
+        success = functions.add_to_watchlist(session["username"], fund)
+        if success:
+            flash("Fund added to watchlist", "success")
+            return redirect("/")
+        else:
+            flash("Failed to add fund to watchlist", "error")
+    return render_template("watchlist.html", funds=available_funds)
+
+
 
 
 @app.route("/logout")

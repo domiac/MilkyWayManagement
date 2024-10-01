@@ -106,6 +106,19 @@ def create_fund(fund_name, intrest, username):
     return True
 
 
+def add_to_watchlist(username, fund_name):
+    fund_id = fund_id_func(fund_name)
+    sql_id = text("SELECT id FROM users WHERE username = :username")
+    result = db.session.execute(sql_id, {"username": username})
+    user_id = result.fetchone()[0]
+    try:
+        sql_insert = text("INSERT INTO watchlist (user_id, fund_id) VALUES (:user_id, :fund_id)")
+        db.session.execute(sql_insert, {"user_id": user_id, "fund_id": fund_id})
+        db.session.commit()
+    except:
+        return False
+    return True
+
 
 def logout():
     del session["username"]
