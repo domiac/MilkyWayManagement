@@ -12,13 +12,21 @@ I have used Claude.ai and chatgpt in creating this read.me file and with help on
 MilkyWayManagement is a web application developed as part of a Databases and Web Development course project. It simulates an investment platform where users can invest in various funds managed by admin investors.
 
 ## Starting the project
-First initialize your psql by running the lines in schema.sql. Create a folder where you'll create a .venv or venv file along with a .env . Add your credentials into .env file as follows
+- all these in the terminal as follows:
+- git clone https://github.com/domiac/MilkyWayManagement
+- cd MilkyWayManagement
+- python3 -m venv .venv
+- source .venv/bin/activate
+- pip3 install -r requirements.txt 
+
+Then create a .env file and copy your credentials along with ADMIN_KEY like follows
 - DATABASE_URL=postgresql:/ "Whatever it might be for you"
 - SECRET_KEY = "Whatever it might be for you"
 - ADMIN_KEY = admin1234
-The source into your venv and activate. By doing source venv/bin/activate or source .venv/bin/activate . After this you can copy this into the terminal:
-- pip install -r requirements.txt 
-- Then you can Flask run.
+- Save
+
+Then in the terminal:
+- Flask run
 
 
 ## Features
