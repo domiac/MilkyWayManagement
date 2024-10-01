@@ -7,4 +7,5 @@ CREATE TABLE fund(id SERIAL PRIMARY KEY, intrest INT, fund_name TEXT, user_id IN
 CREATE TABLE users(id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT, admin BOOLEAN);
 
 
+CREATE TABLE watchlist(id SERIAL PRIMARY KEY,fund_id INTEGER REFERENCES fund , user_id INTEGER REFERENCES users);
 
