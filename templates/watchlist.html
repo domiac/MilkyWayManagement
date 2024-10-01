@@ -23,7 +23,7 @@
 <label for="fund">Choose Fund:</label>
 <select id="fund" name="fund" required>
 {% for fund in funds %}
-<option value="{{ fund.fund_name }}">{{ fund.fund_name }} (Interest: {{ fund.intrest }}%)</option>
+<option value="{{ fund.fund_name }}">{{ fund.fund_name }}</option>
 {% endfor %}
 </select>
 <p>

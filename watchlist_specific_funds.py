@@ -28,14 +28,8 @@ def watchlist_sums():
         sql_id = text("SELECT id FROM users WHERE username = :username")
         result = db.session.execute(sql_id, {"username": username})
         user_id = result.fetchone()[0]
-        
-        sql_watchlist = text("""
-            SELECT f.fund_name, COALESCE(SUM(t.amount), 0) as total_amount
-            FROM fund f
-            LEFT JOIN transaction t ON f.id = t.fund_id
-            WHERE f.id IN (SELECT fund_id FROM watchlist WHERE user_id = :user_id)
-            GROUP BY f.fund_name
-        """)
+        # got help from claude.ai with this query
+        sql_watchlist = text("""SELECT f.fund_name, COALESCE(SUM(t.amount), 0) as total_amount FROM fund f LEFT JOIN transaction t ON f.id = t.fund_id WHERE f.id IN (SELECT fund_id FROM watchlist WHERE user_id = :user_id) GROUP BY f.fund_name""")
         
         result = db.session.execute(sql_watchlist, {"user_id": user_id})
         funds = result.fetchall()
