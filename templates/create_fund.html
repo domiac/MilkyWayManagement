@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund Creation</title>
+</head>
+<body>
+<h1>Fund Creation</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="flashes">
+{% for category, message in messages %}
+<li class="{{ category }}">{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<form action="/create_fund" method="post">
+<p>
+<label for="fund_name">Fund name:</label>
+<input type="text" id="fund_name" name="fund_name" required>
+<p>
+<label for="intrest">Expected intrest:</label>
+<input type="text" id="intrest" name="intrest" required>
+<p>
+<input type="submit" value="Create">
+</form>
+</body>
+</html>

@@ -5,6 +5,7 @@ import funds
 import functions
 from all_possible_funds import all_possible_funds
 from user_specified_funds import user_specified_funds
+from os import getenv
 
 
 
@@ -35,7 +36,11 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        if request.form["admin_creds"]=="admin1234":
+        ## FIX LOGIC HERE: 
+        ## if admin_creds is in the form, and the value is the same as the admin key, set admin to True
+        ## if the passwords don't match, return an error message
+        ## if admin is not sent through the form, set it to False and skip this phase
+        if request.form["admin_creds"]==getenv("ADMIN_KEY"):
             admin = True
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
@@ -80,6 +85,26 @@ def withdraw():
             flash("Withdrawal failed", "error")
     return render_template("withdraw.html", funds=available_funds_for_account)
 
+
+@app.route("/create_fund", methods=["GET", "POST"])
+def create_fund():
+    if "username" not in session:
+        return redirect("/login")
+    if request.method == "POST":
+        fund_name = request.form["fund_name"]
+        intrest = request.form["intrest"]
+        username = session["username"]
+        admin = functions.admin_check(username)
+        if admin:
+            success = functions.create_fund(fund_name, intrest, username)
+            if success:
+                flash("Fund created", "success")
+                return redirect("/")
+            else:
+                flash("Fund creation failed", "error")
+        else:
+            flash("You do not have permission to create funds", "error")
+    return render_template("create_fund.html")
 
 
 @app.route("/logout")

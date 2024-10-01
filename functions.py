@@ -62,9 +62,9 @@ def deposit(username,amount,fund_name):
     return True
 
 
-def balance_check(username, amount, fund):
-    sql_balance = text("SELECT SUM(amount) FROM transaction WHERE user_id = (SELECT id FROM users WHERE username = :username) AND fund = :fund")
-    result = db.session.execute(sql_balance, {"username": username, "fund": fund})
+def balance_check(username, amount, fund_id):
+    sql_balance = text("SELECT SUM(amount) FROM transaction WHERE user_id=(SELECT id FROM users WHERE username = :username) AND fund_id = :fund_id")
+    result = db.session.execute(sql_balance, {"username": username, "fund_id": fund_id})
     current_balance = result.scalar() or 0
     if current_balance >= float(amount):
         return True
@@ -73,32 +73,37 @@ def balance_check(username, amount, fund):
 
 
 
-def withdraw(username, amount, fund):
-    if not balance_check(username, amount, fund):
+def withdraw(username, amount, fund_name):
+    fund_id = fund_id_func(fund_name)
+    if not balance_check(username, amount, fund_id):
         return False
     sql_id = text("SELECT id FROM users WHERE username = :username")
     result = db.session.execute(sql_id, {"username": username})
     user_id = result.fetchone()[0]
-    sql_insert = text("INSERT INTO transaction (user_id, amount, fund, sent_date) VALUES (:user_id, :amount, :fund,NOW())")
-    db.session.execute(sql_insert, {"user_id": user_id, "amount": -float(amount), "fund": fund})
+    sql_insert = text("INSERT INTO transaction (user_id, amount, fund_id, sent_date) VALUES (:user_id, :amount, :fund_id,NOW())")
+    db.session.execute(sql_insert, {"user_id": user_id, "amount": -float(amount), "fund_id": fund_id})
     db.session.commit()
     return True
 
 
+def admin_check(username):
+    sql = text("SELECT admin FROM users WHERE username = :username")
+    result = db.session.execute(sql, {"username": username})
+    admin = result.fetchone()[0]
+    return admin
 
-def fund_creator(admin, fund_name):
-    sql = text("SELECT id FROM users WHERE username = :admin")
-    result = db.session.execute(sql, {"admin": admin})
-    admin_id = result.fetchone()[0]
+
+def create_fund(fund_name, intrest, username):
+    sql_id = text("SELECT id FROM users WHERE username = :username")
+    result = db.session.execute(sql_id, {"username": username})
+    user_id = result.fetchone()[0]
     try:
-        sql_insert = text("INSERT INTO funds (admin_id, fund_name) VALUES (:admin_id, :fund_name)")
-        db.session.execute(sql_insert, {"admin_id": admin_id, "fund_name": fund_name})
+        sql_insert = text("INSERT INTO fund (intrest, fund_name, user_id, create_date) VALUES (:intrest, :fund_name, :user_id, NOW())")
+        db.session.execute(sql_insert, {"intrest": intrest, "fund_name": fund_name, "user_id": user_id})
         db.session.commit()
     except:
         return False
     return True
-
-
 
 
 
