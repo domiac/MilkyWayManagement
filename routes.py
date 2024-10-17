@@ -10,13 +10,11 @@ from watchlist_specific_funds import watchlist_specific_funds
 from watchlist_specific_funds import watchlist_sums
 from watchlist_specific_funds import chosen_watchlist_funds
 
-
 @app.route("/")
 def index():
     list = funds.funds()
     watchlist = watchlist_sums()
     return render_template("index.html", funds=list, watchlist=watchlist)
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -52,8 +50,6 @@ def register():
         else:
             return render_template("error.html", message="Registration failed")
          
-
-
 @app.route("/deposit", methods=["GET", "POST"])
 def deposit():
     if "username" not in session:
@@ -70,8 +66,6 @@ def deposit():
             flash("Deposit failed", "error")
     return render_template("deposit.html", funds=available_funds)
 
-
-
 @app.route("/withdraw", methods=["GET", "POST"])
 def withdraw():
     if "username" not in session:
@@ -87,7 +81,6 @@ def withdraw():
         else:
             flash("Withdrawal failed", "error")
     return render_template("withdraw.html", funds=available_funds_for_account)
-
 
 @app.route("/create_fund", methods=["GET", "POST"])
 def create_fund():
@@ -108,8 +101,6 @@ def create_fund():
         else:
             flash("You do not have permission to create funds", "error")
     return render_template("create_fund.html")
-
-
 
 @app.route("/watchlist", methods=["GET", "POST"])
 def watchlist():
@@ -140,12 +131,10 @@ def remove_from_watchlist():
             flash("Failed to remove fund from watchlist", "error")
     return redirect("/watchlist")
 
-
 @app.route("/logout")
 def logout():
     functions.logout()
     return redirect("/")
-
 
 @app.route("/error")
 def error():
