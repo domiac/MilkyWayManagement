@@ -7,6 +7,9 @@ MilkyWayManagement is in a good state. The Main functions are working well. The 
 ## AI in this project
 I have used Claude.ai and chatgpt in creating this read.me file and with help on the templates. It was used to fix hidden inputs in the register file. It was also used in fixing / finding a bug on the watchlist page. Especially figuring out the way of having 2 different post's in one page. It was also used in watchlist routes fixing accoring to the bug fixes found in the template. I did not find any guidelines into LLM's so that's the reasoning for these fixes.
 
+17.10.2024.
+Claude.ai was used in fixing all sql queries into a more readable form.
+
 ## Description
 
 MilkyWayManagement is a web application developed as part of a Databases and Web Development course project. It simulates an investment platform where users can invest in various funds managed by admin investors.
