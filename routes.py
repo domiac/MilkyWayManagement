@@ -1,14 +1,17 @@
 from app import app
-from flask import Flask
-from flask import redirect, render_template, request, session, flash
+from flask import Flask, redirect, render_template, request, session, flash, abort
 import funds
 import functions
 from all_possible_funds import all_possible_funds
 from user_specified_funds import user_specified_funds
 from os import getenv
-from watchlist_specific_funds import watchlist_specific_funds
-from watchlist_specific_funds import watchlist_sums
-from watchlist_specific_funds import chosen_watchlist_funds
+from watchlist_specific_funds import watchlist_specific_funds, watchlist_sums, chosen_watchlist_funds
+import secrets
+
+@app.before_request
+def before_request():
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_hex(16)
 
 @app.route("/")
 def index():
@@ -27,35 +30,39 @@ def login():
             return redirect("/")
         else:
             return render_template("error.html", message="Wrong username or password")
-    
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        if request.form.get("is_admin") =="true":
-            if request.form["admin_creds"]==getenv("ADMIN_KEY"):
+        if request.form.get("is_admin") == "true":
+            if request.form["admin_creds"] == getenv("ADMIN_KEY"):
                 admin = True
             else:
                 return render_template("error.html", message="Admin key incorrect")
         else:
             admin = False
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eroavat")
+            return render_template("error.html", message="Passwords do not match")
         if functions.register(username, password1, admin):
             return redirect("/")
         else:
             return render_template("error.html", message="Registration failed")
-         
+
 @app.route("/deposit", methods=["GET", "POST"])
 def deposit():
     if "username" not in session:
         return redirect("/login")
     available_funds = all_possible_funds()
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         amount = request.form["amount"]
         fund = request.form["fund"]
         success = functions.deposit(session["username"], amount, fund)
@@ -72,6 +79,8 @@ def withdraw():
         return redirect("/login")
     available_funds_for_account = user_specified_funds() or []
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         amount = request.form["amount"]
         fund = request.form["fund"]
         success = functions.withdraw(session["username"], amount, fund)
@@ -87,6 +96,8 @@ def create_fund():
     if "username" not in session:
         return redirect("/login")
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         fund_name = request.form["fund_name"]
         intrest = request.form["intrest"]
         username = session["username"]
@@ -109,6 +120,8 @@ def watchlist():
     available_funds = watchlist_specific_funds() or []
     watchlist_funds = chosen_watchlist_funds() or []
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         fund = request.form["fund"]
         success = functions.add_to_watchlist(session["username"], fund)
         if success:
@@ -122,13 +135,14 @@ def watchlist():
 def remove_from_watchlist():
     if "username" not in session:
         return redirect("/login")
-    if request.method == "POST":
-        fund = request.form["fund"]
-        success = functions.remove_from_watchlist(session["username"], fund)
-        if success:
-            flash("Fund removed from watchlist", "success")
-        else:
-            flash("Failed to remove fund from watchlist", "error")
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    fund = request.form["fund"]
+    success = functions.remove_from_watchlist(session["username"], fund)
+    if success:
+        flash("Fund removed from watchlist", "success")
+    else:
+        flash("Failed to remove fund from watchlist", "error")
     return redirect("/watchlist")
 
 @app.route("/logout")
@@ -138,4 +152,4 @@ def logout():
 
 @app.route("/error")
 def error():
-     return render_template("error.html")
+    return render_template("error.html")

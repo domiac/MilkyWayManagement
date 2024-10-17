@@ -31,6 +31,7 @@
 <p>
 <input type="submit" value="Add to your watchlist">
 </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 
 <h2>Remove from Watchlist</h2>
@@ -46,6 +47,7 @@
 <p>
 <input type="submit" value="Remove from your watchlist">
 </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <h3>Current Watchlist</h3>
 {% if watchlist_funds %}

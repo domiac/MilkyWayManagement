@@ -31,6 +31,7 @@
 <input type="text" id="amount" name="amount" required>
 <p></p>
 <input type="submit" value="Withdraw">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <p><a href="/">Back to main page</a></p>
 </body>

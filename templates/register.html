@@ -34,6 +34,7 @@ Admin credentials: <input type="password" name="admin_creds">
 <p>
 <input type="submit" value="Create account">
 </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 
 <script>

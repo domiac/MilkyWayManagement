@@ -16,5 +16,6 @@ Tunnus: <input type="text" name="username">
 Salasana: <input type="password" name="password">
 <p>
 <input type="submit" value="Kirjaudu">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register">tästä</a>

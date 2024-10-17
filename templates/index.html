@@ -84,6 +84,7 @@ To add funds to your watchlist within our MilkyWay Galaxy, click <a href="/watch
 <p>Password:<br>
 <input type="password" name="password"></p>
 <input type="submit" value="Login">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 If you don't have an account you can create one <a href="/register">here</a>
 {% endif %}

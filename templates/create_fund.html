@@ -27,6 +27,7 @@
 <input type="text" id="intrest" name="intrest" required>
 <p>
 <input type="submit" value="Create">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <p><a href="/">Back to main page</a></p>
 </body>
