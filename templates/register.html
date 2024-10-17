@@ -6,7 +6,7 @@
 <title>Register</title>
 <style>
 #admin-input {
-display: none;
+  display: none;
 }
 </style>
 </head>
@@ -30,6 +30,7 @@ Password again: <input type="password" name="password2">
 <p id="admin-input">
 Admin credentials: <input type="password" name="admin_creds">
 </p>
+<input type="hidden" name="is_admin" id="is-admin-input" value="false">
 <p>
 <input type="submit" value="Create account">
 </p>
@@ -37,8 +38,18 @@ Admin credentials: <input type="password" name="admin_creds">
 
 <script>
 function toggleAdminInput() {
-var adminInput = document.getElementById("admin-input");
-if (document.getElementById("show-checkbox").checked) {adminInput.style.display = "block";} else {adminInput.style.display = "none";}}
+  var adminInput = document.getElementById("admin-input");
+  var isAdminInput = document.getElementById("is-admin-input");
+  var isChecked = document.getElementById("show-checkbox").checked;
+  
+  if (isChecked) {
+    adminInput.style.display = "block";
+    isAdminInput.value = "true";
+  } else {
+    adminInput.style.display = "none";
+    isAdminInput.value = "false";
+  }
+}
 </script>
 <p><a href="/">Back to main page</a></p>
 </body>

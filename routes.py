@@ -33,16 +33,16 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        admin = False
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        ## FIX LOGIC HERE: 
-        ## if admin_creds is in the form, and the value is the same as the admin key, set admin to True
-        ## if the passwords don't match, return an error message
-        ## if admin is not sent through the form, set it to False and skip this phase
-        if request.form["admin_creds"]==getenv("ADMIN_KEY"):
-            admin = True
+        if request.form.get("is_admin") =="true":
+            if request.form["admin_creds"]==getenv("ADMIN_KEY"):
+                admin = True
+            else:
+                return render_template("error.html", message="Admin key incorrect")
+        else:
+            admin = False
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
         if functions.register(username, password1, admin):
