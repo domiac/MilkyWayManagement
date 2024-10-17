@@ -3,11 +3,7 @@ from sqlalchemy import text
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
-
-
 def funds():
-
     if "username" in session:
         username = session["username"]
         sql_id = text("SELECT id FROM users WHERE username = :username")

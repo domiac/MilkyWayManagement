@@ -2,9 +2,6 @@ from db_conn import db
 from sqlalchemy import text
 from flask import session
 
-
-
-
 def user_specified_funds():
     if "username" in session:
         username = session["username"]

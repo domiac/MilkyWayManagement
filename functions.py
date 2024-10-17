@@ -18,9 +18,6 @@ def log_in(username, password):
         else:
             return False
 
-
-
-
 def register(username, password, admin):
     hash_value = generate_password_hash(password)
     if not log_in(username, password):  
@@ -35,16 +32,11 @@ def register(username, password, admin):
     else:
         return False
 
-
 def fund_id_func(fund_name):
     sql = text("SELECT id FROM fund WHERE fund_name = :fund_name")
     result = db.session.execute(sql, {"fund_name": fund_name})
     fund_id = result.fetchone()[0]
     return fund_id
-
-
-
-
 
 def deposit(username,amount,fund_name):
     if float(amount)<0:
@@ -61,7 +53,6 @@ def deposit(username,amount,fund_name):
         return False
     return True
 
-
 def balance_check(username, amount, fund_id):
     sql_balance = text("SELECT SUM(amount) FROM transaction WHERE user_id=(SELECT id FROM users WHERE username = :username) AND fund_id = :fund_id")
     result = db.session.execute(sql_balance, {"username": username, "fund_id": fund_id})
@@ -70,8 +61,6 @@ def balance_check(username, amount, fund_id):
         return True
     else:  
         return False
-
-
 
 def withdraw(username, amount, fund_name):
     fund_id = fund_id_func(fund_name)
@@ -85,13 +74,11 @@ def withdraw(username, amount, fund_name):
     db.session.commit()
     return True
 
-
 def admin_check(username):
     sql = text("SELECT admin FROM users WHERE username = :username")
     result = db.session.execute(sql, {"username": username})
     admin = result.fetchone()[0]
     return admin
-
 
 def create_fund(fund_name, intrest, username):
     sql_id = text("SELECT id FROM users WHERE username = :username")
@@ -104,7 +91,6 @@ def create_fund(fund_name, intrest, username):
     except:
         return False
     return True
-
 
 def add_to_watchlist(username, fund_name):
     fund_id = fund_id_func(fund_name)
@@ -131,7 +117,6 @@ def remove_from_watchlist(username, fund_name):
     except:
         return False
     return True
-
 
 def logout():
     del session["username"]

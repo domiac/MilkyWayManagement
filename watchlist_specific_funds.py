@@ -1,9 +1,6 @@
 from db_conn import db
 from sqlalchemy import text
 from flask import session
- 
-
-
 
 def watchlist_specific_funds():
     if "username" in session:
@@ -21,7 +18,6 @@ def watchlist_specific_funds():
     else:
         return []
 
-
 def chosen_watchlist_funds():
     if "username" in session:
         username = session["username"]
@@ -34,8 +30,6 @@ def chosen_watchlist_funds():
         return funds_listed
     else:
         return []
-
-
 
 def watchlist_sums():
     if "username" in session:
