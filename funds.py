@@ -1,7 +1,6 @@
 from db_conn import db
 from sqlalchemy import text
 from flask import session
-from werkzeug.security import check_password_hash, generate_password_hash
 
 def funds():
     if "username" in session:
