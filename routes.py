@@ -114,7 +114,6 @@ def create_fund():
         fund_name = request.form["fund_name"]
         intrest = request.form["intrest"]
         username = session["username"]
-        # check that fund has a name and intrest is a number and name is not already in use # also check that fund name is not " "
         if not fund_name or fund_name.strip() == "":
             flash("Fund must have a name", "error")
             return redirect("/create_fund")

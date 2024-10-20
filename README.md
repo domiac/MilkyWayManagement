@@ -1,13 +1,13 @@
 # MilkyWayManagement
 
-## Current state DELETE LATER WHEN FINE TUNING:
-MilkyWayManagement is in a good state. The Main functions are working well. The Database needs some tweaking for example if a user is trying to create a same named user it increments the running id without creating the user. This might create problems with overhang in larger projects. Need to fix the admin feature registration feature. And finish the fund simulation. Then the program is finished. To create an admin user when registering use create .env where ADMIN_KEY = admin1234
+## Overview:
+Users can create user accounts which can invest money on our platform. They can add funds created by admins into watchlists to watch their performance overtime. Admins have to create admin accounts via the ADMIN_KEY which is give to admins only (In the starting the project section). Admins can create new funds for normal users to use.
 
 
 ## AI in this project
 I have used Claude.ai and chatgpt in creating this read.me file and with help on the templates. It was used to fix hidden inputs in the register file. It was also used in fixing / finding a bug on the watchlist page. Especially figuring out the way of having 2 different post's in one page. It was also used in watchlist routes fixing accoring to the bug fixes found in the template. I did not find any guidelines into LLM's so that's the reasoning for these fixes.
 
-17.10.2024.
+20.10.2024.
 Claude.ai was used in fixing all sql queries into a more readable form.
 
 ## Description
@@ -36,16 +36,14 @@ Then in the terminal:
 
 ### User Features
 - Create and manage user accounts
-- View account dashboard with total investments and interest earnings
-- Set up monthly investment plans
+- View account dashboard with total investments
 - Choose fund allocations for investments
 - Real-time updates on account balance and fund performance
+-Watchlist feature to track new and upcoming funds
 
 ### Admin Features
 - Create and manage investment funds
-- View user investments in each fund
-- Monitor overall fund performance
-- Access detailed reports on total investments and interest earned
+
 
 ## User Journey
 
@@ -54,7 +52,7 @@ Then in the terminal:
    - Existing users can log in securely
 
 2. **Dashboard**
-   - Users see their total investment amount and interest earned
+   - Users see their total investment amount
    - Quick overview of current fund allocations
 
 3. **Investment Process**
