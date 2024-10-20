@@ -64,6 +64,14 @@ def deposit():
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
         amount = request.form["amount"]
+        try:
+            amount = int(amount)
+        except ValueError:
+            flash("Amount must be an integer", "error")
+            return redirect("/deposit")
+        if amount <= 0:
+            flash("Amount must be greater than 0", "error")
+            return redirect("/deposit")
         fund = request.form["fund"]
         success = functions.deposit(session["username"], amount, fund)
         if success:
@@ -82,6 +90,11 @@ def withdraw():
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
         amount = request.form["amount"]
+        try:
+            amount = int(amount)
+        except ValueError:
+            flash("Amount must be an integer", "error")
+            return redirect("/withdraw")
         fund = request.form["fund"]
         success = functions.withdraw(session["username"], amount, fund)
         if success:
@@ -101,6 +114,15 @@ def create_fund():
         fund_name = request.form["fund_name"]
         intrest = request.form["intrest"]
         username = session["username"]
+        # check that fund has a name and intrest is a number and name is not already in use # also check that fund name is not " "
+        if not fund_name or fund_name.strip() == "":
+            flash("Fund must have a name", "error")
+            return redirect("/create_fund")
+        try:
+            intrest = float(intrest)
+        except ValueError:
+            flash("Intrest must be a number", "error")
+            return redirect("/create_fund")
         admin = functions.admin_check(username)
         if admin:
             success = functions.create_fund(fund_name, intrest, username)
